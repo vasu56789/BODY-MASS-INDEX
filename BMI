@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+struct member {
+char name[30];
+float height;
+float weight;
+}m;
+
+float BMI(float height, float weight) {return weight/(height*height);}
+
+void main() {
+printf("Please enter your name: ");
+scanf("%s",m.name);
+printf("Please enter your height in metres: ");
+scanf("%f",&m.height);
+printf("Please enter your weight in kilograms: ");
+scanf("%f",&m.weight);
+float bmifinal = BMI(m.height,m.weight);
+if (bmifinal>=25.00) {
+printf ("%s's BMI Index Value is : %.2f. He/She is required to lose weight, and is obese.",m.name,bmifinal);}
+else if (bmifinal<18.5) {printf("%s's BMI Index Value is : %.2f. He/She is required to gain more weight, and is underweight.",m.name,bmifinal);}
+else if (bmifinal>18.5&&bmifinal<24.9) {printf("%s's BMI Index Value is : %.2f. He/She is in the healthy range, and is not required to gain or lose weight.",m.name,bmifinal);}
+}
