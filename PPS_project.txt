@@ -1,0 +1,165 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <math.h>
+
+int bmi();
+int bodyfat_M();
+int bodyfat_F();
+
+struct info {
+char name[30];
+int gender;
+float height;
+float weight;
+float neck;
+float waist;
+float hips;
+float bmifinal;
+float bffinal;
+}m;
+
+float BMI(float height, float weight) {return weight/(height*height);}
+float RW_L(float height, float weight) {return weight-((height*height)*25);}
+float RW_G(float height, float weight) {return ((height*height)*18.5)-weight;}
+float BF_M(float waist, float neck, float height) {return 495/(1.0324-(0.19077*log10(waist-neck))+(0.15456*log10(height)))- 450;}
+float BF_F (float waist, float neck, float hips, float height) {return 495/(1.29579-(0.35004*log10(waist+hips-neck))+(0.22100*log10(height)))- 450;}
+ 
+int main()
+{
+ int opt;
+ printf("\t\t\t\t Body Mass Index and Body Fat Percentage Calcultor");
+ printf("\n\nPlease enter your name: "); 
+ scanf("%s",m.name);
+ printf("Please enter your gender, with '1' for male and '2' for female: ");
+ scanf("%d",&m.gender);
+
+ switch (m.gender) 
+ {
+  case 1:
+  printf("\nWelcome %s! Please enter the option number corresponding to your desired option from the following: ",m.name);
+  printf("\n\n(1)Calculate Your BMI");
+  printf("\n(2)Calculate Your Body Fat percentage");
+  printf("\n(3)Exit");
+  printf("\n\nPlease enter your desired option: ");
+  scanf("%d",&opt);
+
+  switch (opt)
+  {
+   case 1:
+    bmi();
+    break;
+   case 2:
+    bodyfat_M();
+    break;
+   case 3:
+    printf("Goodbye. Thank you for using this program!");
+    getch();
+    exit(0);
+   default: printf("You have entered an option that does not exist. Please restart the program and re-enter the correct option that you wish to choose.");
+         getch();
+         break;
+  }
+ break;
+
+  case 2:
+  printf("\nWelcome %s! Please enter the option number corresponding to your desired option from the following :",m.name);
+  printf("\n\n(1)Calculate Your BMI");
+  printf("\n(2)Calculate Your Body Fat Percentage");
+  printf("\n(3)Exit");
+  printf("\n\nPlease enter your desired option: ");
+  scanf("%d",&opt);
+
+  switch (opt)
+  {
+   case 1:
+    bmi();
+    break;
+   case 2:
+    bodyfat_F();
+    break;
+   case 3:
+    printf("Goodbye. Thank you for using this program!");
+    getch();
+    exit(0);
+   default: printf("You have entered an option that does not exist. Please restart the program and re-enter the correct option that you wish to choose.");
+         getch();
+         break;
+  }
+
+  break; 
+  default: printf("You have entered an option that does not exist. Please restart the program and re-enter the correct option that you wish to choose.");
+ }
+
+ return 0;
+}
+
+int bmi()
+{
+ printf("You have chosen the Body Mass Index Calculator.");
+ printf("\n\nPlease enter your height in metres: ");
+ scanf("%f",&m.height);
+ printf("Please enter your weight in kilograms: ");
+ scanf("%f",&m.weight); 
+
+ m.bmifinal = BMI(m.height,m.weight);
+ float rem_lose=RW_L(m.height,m.weight);
+ float rem_gain=RW_G(m.height,m.weight);
+
+ if (m.bmifinal>40) {printf ("\nYour BMI Value is : %.2f. Your are in Obese Class III. You need to lose %.2f Kg in order to have a healthy BMI",m.bmifinal,rem_lose);}
+ else if (m.bmifinal>35&&m.bmifinal<40) {printf("\nYour BMI Value is: %.2f. You are in Obese Class II. You need to lose %.2f Kg in order to have a healthy BMI",m.bmifinal,rem_lose);}
+ else if (m.bmifinal>30&&m.bmifinal<35) {printf("\nYour BMI Value is %.2f. You are in Obese Class I. You need to lose %.2f Kg in order to have a healthy BMI",m.bmifinal,rem_lose);}
+ else if (m.bmifinal>25&&m.bmifinal<30) {printf("\nYour BMI Value is %.2f. You are overweight. You need to lose %.2f Kg in order to have a healthy BMI",m.bmifinal,rem_lose);}
+ else if (m.bmifinal>18.5&&m.bmifinal<25) {printf("\nYour BMI Value is %.2f. You have a healthy BMI.",m.bmifinal);}
+ else if (m.bmifinal>17&&m.bmifinal<18.5) {printf("\nYour BMI Index Value is : %.2f. You are  mildly underweight. You need to gain %.2f Kg in order to have a healthy BMI.",m.bmifinal,rem_gain);}
+ else if (m.bmifinal>16&&m.bmifinal<17) {printf("\nYour BMI Value is %.2f. You are moderately underweight. You need to gain %.2f Kg in order to have a healthy BMI.",m.bmifinal,rem_gain);}
+ else if (m.bmifinal<16) {printf("\nYour BMI Value is %.2f. You are severely underweight. You need to gain %.2f Kg in order to have a healthy BMI.",m.bmifinal,rem_gain);}
+
+ return 0;
+}
+
+int bodyfat_M() 
+{
+ printf("You have chosen the Body Fat Percentage Calculator.");
+ printf("\n\nPlease note that you must measure the circumference of their waist and neck in centimetres, along with your height in order to receive your body fat percentage");
+ printf("\n\nPlease enter the circumference of your waist in centimetres: ");
+ scanf("%f",&m.waist);
+ printf("Please enter the circumference of your neck in centimetres: ");
+ scanf("%f",&m.neck);
+ printf("Please enter your height in centimetres: ");
+ scanf("%f",&m.height);
+
+ m.bffinal= BF_M(m.waist,m.neck,m.height);
+
+ if (m.bffinal>24.5) {printf("\nYour body fat percentage is %.2f percent. You are obese",m.bffinal);}
+ else if (m.bffinal>17.5&&m.bffinal<24.5) {printf("\nYour body fat percentage is %.2f percent. You have an average body fat percentage.",m.bffinal);}
+ else if (m.bffinal>13.5&&m.bffinal<17.5) {printf("\nYour body fat percentage is %.2f percent. You are fit.",m.bffinal);}
+ else if (m.bffinal>5.5&&m.bffinal<13.5) {printf("\nYour body fat percentage is %.2f percent. You have a body fat percentage equivalent to that of an athlete",m.bffinal);}
+ else if (m.bffinal<5.5) {printf("\nYour body fat percentage is %.2f percent. You have the minimum amount of essential fat required but need to increase it in order to stay healthy",m.bffinal);}
+
+ return 0;
+}
+
+int bodyfat_F ()
+{
+ printf("You have chosen the Body Fat Percentage Calculator.");
+ printf("\n\nPlease note that you must measure the circumference of your waist, neck and hips in centimetres, along with your height in centimetres in order to receive your body fat percentage.");
+ printf("\n\nPlease enter the circumference of your waist in centimetres: ");
+ scanf("%f",&m.waist);
+ printf("Please enter the circumference of your neck in centimetres: ");
+ scanf("%f",&m.neck);
+ printf("Please enter the circumference of your hips in centimetres: ");
+ scanf("%f",&m.hips);
+ printf("Please enter your height in centimetres: ");
+ scanf("%f",&m.height);
+
+ m.bffinal=BF_F(m.waist,m.neck,m.hips,m.height);
+
+ if (m.bffinal>31.5) {printf("\nYour body fat percentage is %.2f percent. You are obese",m.bffinal);}
+ else if (m.bffinal>24.5&&m.bffinal<31.5) {printf("\nYour body fat percentage is %.2f percent. You have an average body fat percentage.",m.bffinal);}
+ else if (m.bffinal>20.5&&m.bffinal<24.5) {printf("\nYour body fat percentage is %.2f percent. You are fit.",m.bffinal);}
+ else if (m.bffinal>13&&m.bffinal<20.5) {printf("\nYour body fat percentage is %.2f percent. You have a body fat percentage equivalent to that of an athlete",m.bffinal);}
+ else if (m.bffinal<13) {printf("\nYour body fat percentage is %.2f percent. You have the minimum amount of essential fat required.",m.bffinal);}
+
+ return 0;
+}
